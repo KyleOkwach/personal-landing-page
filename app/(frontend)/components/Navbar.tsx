@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import { Github, Sun, Moon, Telescope } from 'lucide-react';
 
 interface NavbarProps {
@@ -10,9 +11,10 @@ interface NavbarProps {
 
 export default function Navbar({ className }:NavbarProps) {
     const [isDarkMode, setIsDarkMode] = useState(false)
+    const { theme, setTheme } = useTheme()
 
     const NavItems = [
-        { icon: null, name: "Work", link: "/work" },
+        { icon: null, name: "Works", link: "/works" },
         { icon: null, name: "Blog", link: "/blog" },
         { icon: null, name: "Contact", link: "/contact" },
         { icon: null, name: "Resume", link: "/resume" },
@@ -30,10 +32,10 @@ export default function Navbar({ className }:NavbarProps) {
                     </div>
                 </Link>
                 {/* Nav Items */}
-                <div className="flex flex-row items-center gap-4 justify-center">
+                <div className="flex flex-row items-center gap-2 justify-center">
                     {NavItems.map((item, index) => (
                         <Link key={index} href={item.link}>
-                            <div className="flex flex-row items-center gap-2 justify-center hover:bg-accent/20 p-2 rounded-md transition-all duration-200 ease-in-out">
+                            <div className="flex flex-row items-center gap-1 justify-center hover:bg-accent/20 p-2 rounded-md transition-all duration-200 ease-in-out">
                                 {item.icon && <item.icon size={16} strokeWidth={2.5}/>}
                                 <h3 className="font-semibold">{item.name}</h3>
                             </div>
@@ -42,8 +44,8 @@ export default function Navbar({ className }:NavbarProps) {
                 </div>
                 {/* Theme Toggle */}
                 <div className="ml-auto flex flex-row items-center gap-4 justify-center">
-                    <button className="btn bg-accent text-background" onClick={() => setIsDarkMode(!isDarkMode)}>
-                        {isDarkMode ? <Sun size={16} /> : <Moon size={16} /> }
+                    <button className="btn bg-accent text-background" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+                        { theme === 'dark' ? <Sun size={16} /> : <Moon size={16} /> }
                     </button>
                 </div>
             </div>

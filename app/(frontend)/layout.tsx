@@ -35,10 +35,18 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar className="fixed w-full top-0" />
-          <div className="flex flex-col items-center justify-center min-h-full w-full">
-            <div className="flex flex-col items-center justify-center gap-4 debug min-h-screen w-1/3">
-              {children}
+          <div className="flex flex-col items-center w-full">
+            <Navbar className="fixed w-full top-0 z-20" />
+            <div className="flex flex-col mt-24 relative items-center min-h-screen gap-4 w-1/3">
+              <div className="flex flex-col absolute items-center justify-center w-full min-h-[50vh] bg-text/10 backdrop-blur-2xl">
+                {/* Model Container */}
+              </div>
+              <div className="mt-[45%] z-10 w-[80%]">
+                {children}
+              </div>
+              <footer className="flex flex-row items-center justify-center gap-2 text-sm font-medium text-text/50 mt-auto py-8">
+                &copy; {new Date().getFullYear()} Kyle Bolo. All rights reserved.
+              </footer>
             </div>
           </div>
         </ThemeProvider>
