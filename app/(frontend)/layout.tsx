@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "./components/Navbar";
+import ModelViewer from "./components/ModelViewer";
+import ModelContainer from "./components/ModelContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,11 +39,17 @@ export default function RootLayout({
         >
           <div className="flex flex-col items-center w-full">
             <Navbar className="fixed w-full top-0 z-20" />
-            <div className="flex flex-col mt-24 relative items-center min-h-screen gap-4 w-1/3">
-              <div className="flex flex-col absolute items-center justify-center w-full min-h-[50vh] bg-text/10 backdrop-blur-2xl">
+            <div className="flex flex-col relative items-center min-h-screen gap-4 w-1/3">
+              <div className="flex absolute items-center justify-center h-[640px] w-[640px] bg-text/0 backdrop-blur-2xl">
                 {/* Model Container */}
+                <ModelContainer>
+                  <ModelViewer
+                    modelPath={"dog.glb"}
+                    className="w-full h-full"
+                  />
+                </ModelContainer>
               </div>
-              <div className="mt-[45%] z-10 w-[80%]">
+              <div className="mt-[60%] z-10 w-[80%]">
                 {children}
               </div>
               <footer className="flex flex-row items-center justify-center gap-2 text-sm font-medium text-text/50 mt-auto py-8">

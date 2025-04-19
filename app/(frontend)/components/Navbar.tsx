@@ -15,7 +15,7 @@ export default function Navbar({ className }:NavbarProps) {
 
     const NavItems = [
         { icon: null, name: "Works", link: "/works" },
-        { icon: null, name: "Blog", link: "/blog" },
+        { icon: null, name: "Posts", link: "/posts" },
         { icon: null, name: "Contact", link: "/contact" },
         { icon: null, name: "Resume", link: "/resume" },
         { icon: Github, name: "Source", link: "#source" }
@@ -23,10 +23,10 @@ export default function Navbar({ className }:NavbarProps) {
 
     return (
         <nav className={`${className} flex items-center justify-center backdrop-blur-2xl bg-background/70 py-2`}>
-            <div className="flex flex-row items-center gap-8 justify-center max-w-[40%] w-full">
+            <div className="flex flex-row items-center gap-8 justify-center md:w-[50rem]">
                 {/* Logo */}
                 <Link href={`/`}>
-                    <div className="flex flex-row items-center justify-center gap-2">
+                    <div className="flex flex-row items-center justify-center gap-2 min-w-[100px]">
                         <Telescope size={24} strokeWidth={2} />
                         <h3 className="font-extrabold">Kyle Bolo</h3>
                     </div>

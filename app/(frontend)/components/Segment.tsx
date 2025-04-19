@@ -31,7 +31,7 @@ export default function Segment({
         </div>
         <span className="w-full h-1 bg-text/70"></span>
       </div>
-      <div>{children}</div>
+      <div className='flex flex-col gap-4'>{children}</div>
     </div>
   );
 }
