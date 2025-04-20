@@ -12,7 +12,7 @@ export default function ProjectCard({ title, thumbnail, summary, slug }: Project
     return (
         <>
             {slug && (
-                <Link href={`#${slug}`}>
+                <Link href={`/works/${slug}`}>
                     <div className="flex flex-col gap-2 items-center justify-center">
                         <div className="relative w-full h-36 rounded-md bg-accent/20 overflow-hidden">
                             {/* Thumbnail */}

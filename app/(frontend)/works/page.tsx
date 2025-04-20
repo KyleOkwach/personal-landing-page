@@ -46,7 +46,10 @@ export default function Page() {
                     ))}
                 </div>
             </Segment>
-            <Segment title="Projects">
+            <Segment
+                title="Projects"
+                description="Some of the projects I've worked or I'm currently working on."
+            >
                 <div className="grid grid-cols-2 gap-4">
                     {projects.map((project, index) => (
                         <ProjectCard 

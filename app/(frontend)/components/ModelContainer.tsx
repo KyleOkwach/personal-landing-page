@@ -3,8 +3,8 @@ import { ReactNode } from 'react';
 export default function ModelContainer({ children }: { children: ReactNode }) {
   return (
     <div style={{
-      width: '60vh',
-      height: '60vh',
+      width: '100%',
+      height: '100%',
       position: 'relative',
       overflow: 'hidden'
     }}>

@@ -10,8 +10,8 @@ interface NavbarProps {
 }
 
 export default function Navbar({ className }:NavbarProps) {
-    const [isDarkMode, setIsDarkMode] = useState(false)
     const { theme, setTheme } = useTheme()
+    const Icon = theme === 'dark' ? Moon : Sun
 
     const NavItems = [
         { icon: null, name: "Works", link: "/works" },
@@ -23,7 +23,7 @@ export default function Navbar({ className }:NavbarProps) {
 
     return (
         <nav className={`${className} flex items-center justify-center backdrop-blur-2xl bg-background/70 py-2`}>
-            <div className="flex flex-row items-center gap-8 justify-center md:w-[50rem]">
+            <div className="flex flex-row items-center gap-8 justify-center md:w-[50rem] px-2">
                 {/* Logo */}
                 <Link href={`/`}>
                     <div className="flex flex-row items-center justify-center gap-2 min-w-[100px]">
@@ -32,7 +32,7 @@ export default function Navbar({ className }:NavbarProps) {
                     </div>
                 </Link>
                 {/* Nav Items */}
-                <div className="flex flex-row items-center gap-2 justify-center">
+                <div className="flex flex-row items-center gap-4 justify-center">
                     {NavItems.map((item, index) => (
                         <Link key={index} href={item.link}>
                             <div className="flex flex-row items-center gap-1 justify-center hover:bg-accent/20 p-2 rounded-md transition-all duration-200 ease-in-out">
@@ -45,7 +45,7 @@ export default function Navbar({ className }:NavbarProps) {
                 {/* Theme Toggle */}
                 <div className="ml-auto flex flex-row items-center gap-4 justify-center">
                     <button className="btn bg-accent text-background" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                        { theme === 'dark' ? <Sun size={16} /> : <Moon size={16} /> }
+                        <Icon size={16} />
                     </button>
                 </div>
             </div>
