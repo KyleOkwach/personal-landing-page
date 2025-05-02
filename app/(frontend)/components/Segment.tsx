@@ -21,7 +21,7 @@ export default function Segment({
   className = '',
 }: SegmentProps) {
   return (
-    <div className={`flex flex-col gap-4 ${className}`}>
+    <div className={`flex flex-col gap-4 w-full ${className}`}>
       <div className="flex flex-col items-start justify-center gap-0.5 w-fit">
         <div className="flex flex-row gap-1 items-center">
           {icon && (

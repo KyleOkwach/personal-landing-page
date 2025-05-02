@@ -10,6 +10,9 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --max-w-8xl: 88rem;
+  --max-w-9xl: 96rem;
 }
 
 @layer base {
@@ -44,6 +47,12 @@ html {
 body {
   color: var(--text);
   background: var(--background);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 .debug {

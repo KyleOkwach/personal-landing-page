@@ -23,6 +23,13 @@ export default function Page() {
     },
   ];
 
+  const socials = [
+    {
+      name: "X",
+      link: "",
+    }
+  ]
+
   return (
     <div className="flex flex-col items-center h-full gap-8">
       {/* Intro */}
@@ -61,10 +68,11 @@ export default function Page() {
       </Segment>
 
       {/* Thought Dump */}
-      <Segment title="Thought Dump" className="flex flex-col gap-4">
-        <p className="text-justify indent-4">
-          A messy corner for unfiltered ideas, fleeting insights, dev notes, shower thoughts, half-baked theories, and wild what-ifs.
-        </p>
+      <Segment
+        title="Thought Dump"
+        className="flex flex-col gap-4"
+        description="A messy corner for unfiltered ideas, fleeting insights, dev notes, shower thoughts, half-baked theories, and wild what-ifs."
+      >
         <div className="flex flex-col gap-4">
           {thoughts.map((thought) => (
             <ThoughtCard
@@ -76,6 +84,15 @@ export default function Page() {
             />
           ))}
         </div>
+      </Segment>
+
+      {/* Socials */}
+      <Segment
+        title="Where to Find Me"
+        description="Connect with me on these platforms!"
+        className="flex flex-col gap-4"
+      >
+          <div></div>
       </Segment>
     </div>
   );

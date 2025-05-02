@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
-export default function ModelContainer({ children }: { children: ReactNode }) {
+export default function ModelContainer({ children, className }: { children: ReactNode, className?: string }) {
   return (
-    <div style={{
+    <div className={`${className}`} style={{
       width: '100%',
       height: '100%',
       position: 'relative',

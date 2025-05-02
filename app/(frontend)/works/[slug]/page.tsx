@@ -107,7 +107,7 @@ export default function Page({ project }: { project: Project }) {
             {/* Breadcrumb Navigation */}
             <div className="flex flex-row items-center gap-2">
                 <Link href={`/works`}>
-                    <h3 className="text-md text-primary hover:underline">Projects</h3>
+                    <h3 className="text-md text-primary hover:underline">Works</h3>
                 </Link>
                 <ChevronRight size={16} strokeWidth={1} />
                 <h1 className="text-2xl font-semibold">{projectData.title}</h1>

@@ -1,25 +1,21 @@
 "use client"
 
 import Link from "next/link";
-import { useState } from "react";
-import { useTheme } from "next-themes";
-import { Github, Sun, Moon, Telescope } from 'lucide-react';
+import { Github, Telescope } from 'lucide-react';
+import ThemeToggle from "./ThemeToggle";
 
 interface NavbarProps {
     className?: string,
 }
 
-export default function Navbar({ className }:NavbarProps) {
-    const { theme, setTheme } = useTheme()
-    const Icon = theme === 'dark' ? Moon : Sun
-
+export default function Navbar({ className }: NavbarProps) {
     const NavItems = [
         { icon: null, name: "Works", link: "/works" },
         { icon: null, name: "Posts", link: "/posts" },
         { icon: null, name: "Contact", link: "/contact" },
         { icon: null, name: "Resume", link: "/resume" },
         { icon: Github, name: "Source", link: "#source" }
-    ]
+    ];
 
     return (
         <nav className={`${className} flex items-center justify-center backdrop-blur-2xl bg-background/70 py-2`}>
@@ -44,11 +40,9 @@ export default function Navbar({ className }:NavbarProps) {
                 </div>
                 {/* Theme Toggle */}
                 <div className="ml-auto flex flex-row items-center gap-4 justify-center">
-                    <button className="btn bg-accent text-background" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                        <Icon size={16} />
-                    </button>
+                    <ThemeToggle />
                 </div>
             </div>
         </nav>
-    )
+    );
 }

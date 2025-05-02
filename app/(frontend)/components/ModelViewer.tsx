@@ -1,123 +1,173 @@
-"use client";
+'use client';
 
-import { Canvas, useFrame } from '@react-three/fiber';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
-import { Suspense, useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
+import { ModelSpinner, ModelContainer } from './ModelLoader';
 
-function Model({ modelPath, autoRotate = true }: { modelPath: string; autoRotate?: boolean }) {
-  const group = useRef<THREE.Group>(null);
-  const { scene } = useGLTF(modelPath);
+// Store animation state globally so it persists between renders
+const globalAnimState = {
+  frameCount: 0,
+  autoRotateAngle: 0,
+  isInitialAnimComplete: false
+};
 
-  useFrame((state, delta) => {
-    if (autoRotate && group.current) {
-      group.current.rotation.y += delta * 0.5;
-    }
-  });
-
-  return <primitive object={scene} ref={group} />;
-}
-
-function Loader() {
-  return (
-    <mesh position={[0, 0, 0]}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="gray" />
-    </mesh>
-  );
-}
-
-// Ease out circular function for smooth camera animation
-function easeOutCirc(x: number) {
+function easeOutCirc(x: number): number {
   return Math.sqrt(1 - Math.pow(x - 1, 4));
 }
 
-function CameraAnimation() {
-  const [frame, setFrame] = useState(0);
+interface ModelProps {
+  modelPath: string;
+}
+
+const Model = ({ modelPath }: ModelProps) => {
+  // Make sure we always use an absolute path with origin for GLB files
+  const absoluteModelPath = modelPath.startsWith('/') 
+    ? modelPath 
+    : `/${modelPath}`;
   
-  useFrame(({ camera }) => {
-    if (frame <= 100) {
-      setFrame(frame + 1);
-      
-      const initialPosition = new THREE.Vector3(
-        20 * Math.sin(0.2 * Math.PI),
-        10,
-        20 * Math.cos(0.2 * Math.PI)
-      );
-      
-      const target = new THREE.Vector3(-0.5, 1.2, 0);
+  // Use a try-catch to handle potential loading errors
+  try {
+    const { scene } = useGLTF(absoluteModelPath);
+    
+    // Apply shadow settings
+    useEffect(() => {
+      scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+    }, [scene]);
+    
+    return <primitive object={scene} />;
+  } catch (error) {
+    console.error("Error loading model:", error);
+    return null;
+  }
+};
+
+const AnimatedCamera = () => {
+  const { camera } = useThree();
+  const target = new THREE.Vector3(-0.5, 1.2, 0);
+  const initialCameraPosition = new THREE.Vector3(
+    20 * Math.sin(0.2 * Math.PI),
+    10,
+    20 * Math.cos(0.2 * Math.PI)
+  );
+
+  // Initialize camera position only if animation hasn't completed
+  useEffect(() => {
+    if (!globalAnimState.isInitialAnimComplete) {
+      camera.position.copy(initialCameraPosition);
+      camera.lookAt(target);
+    }
+  }, [camera, initialCameraPosition, target]);
+
+  useFrame(() => {
+    // Only run the initial animation if it's not complete
+    if (!globalAnimState.isInitialAnimComplete && globalAnimState.frameCount <= 100) {
+      const frame = globalAnimState.frameCount;
       const rotSpeed = -easeOutCirc(frame / 120) * Math.PI * 20;
       
       camera.position.y = 10;
-      camera.position.x = initialPosition.x * Math.cos(rotSpeed) + initialPosition.z * Math.sin(rotSpeed);
-      camera.position.z = initialPosition.z * Math.cos(rotSpeed) - initialPosition.x * Math.sin(rotSpeed);
+      camera.position.x = initialCameraPosition.x * Math.cos(rotSpeed) + initialCameraPosition.z * Math.sin(rotSpeed);
+      camera.position.z = initialCameraPosition.z * Math.cos(rotSpeed) - initialCameraPosition.x * Math.sin(rotSpeed);
       camera.lookAt(target);
+      
+      globalAnimState.frameCount += 1;
+      
+      // Mark animation as complete when done
+      if (globalAnimState.frameCount > 100) {
+        globalAnimState.isInitialAnimComplete = true;
+      }
     }
   });
-  
+
   return null;
-}
+};
+
+// Custom OrbitControls that maintains rotation state
+const PersistentOrbitControls = () => {
+  const controlsRef = useRef<any>(null);
+  
+  useFrame(() => {
+    if (controlsRef.current && globalAnimState.isInitialAnimComplete) {
+      // Continue auto-rotation from where it left off
+      controlsRef.current.autoRotateSpeed = 1.0;
+      
+      // Just keeping track of whether initial animation is done
+      globalAnimState.autoRotateAngle += 0.01; // Just for tracking progress
+    }
+  });
+
+  return (
+    <OrbitControls 
+      ref={controlsRef}
+      autoRotate 
+      autoRotateSpeed={1.0}
+      enableZoom={false}
+      enablePan={false}
+      target={new THREE.Vector3(-0.5, 1.2, 0)}
+    />
+  );
+};
 
 interface ModelViewerProps {
   modelPath: string;
   className?: string;
-  autoRotate?: boolean;
-  enableZoom?: boolean;
-  enablePan?: boolean;
 }
 
-export default function ModelViewer({
-  modelPath,
-  className = '',
-  autoRotate = true,
-  enableZoom = true,
-  enablePan = true,
-}: ModelViewerProps) {
-  const scale = 6; // Similar to scale calculation in reference code
+export default function ModelViewer({ modelPath, className = '' }: ModelViewerProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   
+  // Ensure model path is absolute
+  const absoluteModelPath = modelPath.startsWith('/') 
+    ? modelPath 
+    : `/${modelPath}`;
+
+  // Handle model load completion
+  const handleModelLoad = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  // Only render on client-side to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // Return empty container with same dimensions to prevent layout shift
+    return <div className={`${className} h-64 w-full`} />;
+  }
+
   return (
-    <div className={`${className}`} style={{ width: '100%', height: '100%' }}>
+    <ModelContainer ref={containerRef} className={className}>
+      {loading && <ModelSpinner />}
       <Canvas
-        orthographic
-        camera={{
-          left: -scale,
-          right: scale,
-          top: scale,
-          bottom: -scale,
-          near: 0.01,
+        camera={{ 
+          fov: 50, 
+          near: 0.01, 
           far: 50000,
-          position: [
-            20 * Math.sin(0.2 * Math.PI),
-            10,
-            20 * Math.cos(0.2 * Math.PI)
-          ],
-          zoom: 1
+          position: [20, 10, 20]
         }}
-        gl={{ 
-          antialias: true,
-          outputColorSpace: "srgb"
+        dpr={[1, 2]}
+        onCreated={() => {
+          // Set timeout to ensure the spinner shows for at least a moment
+          // even if the model loads very quickly
+          setTimeout(() => handleModelLoad(), 500);
         }}
-        style={{ background: 'transparent', width: '100%', height: '100%' }}
       >
-        {/* Camera animation component */}
-        <CameraAnimation />
-        
-        {/* Exact lighting from the reference code */}
-        <ambientLight color={0xcccccc} intensity={Math.PI} />
-        
-        <Suspense fallback={<Loader />}>
-          <Model modelPath={modelPath} autoRotate={autoRotate} />
-          <OrbitControls
-            enableZoom={enableZoom}
-            enablePan={enablePan}
-            autoRotate={false}
-            autoRotateSpeed={2}
-            minPolarAngle={Math.PI / 6}
-            maxPolarAngle={Math.PI / 2}
-            target={new THREE.Vector3(-0.5, 1.2, 0)}
-          />
+        <ambientLight intensity={Math.PI} />
+        <AnimatedCamera />
+        <PersistentOrbitControls />
+        <Suspense fallback={null}>
+          <Model modelPath={absoluteModelPath} />
         </Suspense>
       </Canvas>
-    </div>
+    </ModelContainer>
   );
 }
