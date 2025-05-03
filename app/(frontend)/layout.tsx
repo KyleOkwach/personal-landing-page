@@ -61,12 +61,12 @@ export default async function RootLayout({
                 {/* Model Container */}
                 <ModelContainer>
                   <ModelViewer
-                    modelPath={"dog.glb"}
+                    modelPath={"setup.glb"}
                     className="w-full h-full"
                   />
                 </ModelContainer>
               </div>
-              <div className="md:mt-[50%] z-10 md:mx-24 md:px-4">
+              <div className="md:mt-[60%] z-10 md:mx-24 md:px-4">
                 {children}
               </div>
               <footer className="flex flex-row items-center justify-center gap-2 text-sm font-medium text-text/50 mt-auto py-8">

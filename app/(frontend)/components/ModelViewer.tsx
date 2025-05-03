@@ -107,8 +107,8 @@ const PersistentOrbitControls = () => {
       ref={controlsRef}
       autoRotate 
       autoRotateSpeed={1.0}
-      enableZoom={false}
-      enablePan={false}
+      enableZoom={true}
+      enablePan={true}
       target={new THREE.Vector3(-0.5, 1.2, 0)}
     />
   );

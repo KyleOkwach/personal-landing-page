@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Github, Telescope } from 'lucide-react';
 import ThemeToggle from "./ThemeToggle";
 
@@ -9,6 +10,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ className }: NavbarProps) {
+    const pathname = usePathname();
     const NavItems = [
         { icon: null, name: "Works", link: "/works" },
         { icon: null, name: "Posts", link: "/posts" },
@@ -31,7 +33,7 @@ export default function Navbar({ className }: NavbarProps) {
                 <div className="flex flex-row items-center gap-4 justify-center">
                     {NavItems.map((item, index) => (
                         <Link key={index} href={item.link}>
-                            <div className="flex flex-row items-center gap-1 justify-center hover:bg-accent/20 p-2 rounded-md transition-all duration-200 ease-in-out">
+                            <div className={`flex flex-row items-center gap-1 justify-center hover:bg-accent/20 p-2 rounded-md transition-all duration-200 ease-in-out ${pathname.startsWith(item.link) ? 'bg-accent/30' : ''}`}>
                                 {item.icon && <item.icon size={16} strokeWidth={2.5}/>}
                                 <h3 className="font-semibold">{item.name}</h3>
                             </div>
