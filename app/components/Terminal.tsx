@@ -6,7 +6,7 @@ import Prompt from "./ui/Prompt";
 import Link from "next/link";
 import { navItems } from "../consts";
 
-export default function Terminal() {
+export default function Terminal({className}: {className?: string}) {
   const ascii = `
 ##:::'##:'##:::'##:'##:::::::'########:'########:::'#######::'##::::::::'#######::
 ##::'##::. ##:'##:: ##::::::: ##.....:: ##.... ##:'##.... ##: ##:::::::'##.... ##:
@@ -27,7 +27,7 @@ export default function Terminal() {
   const pathname = usePathname();
 
   return (
-    <div className="hidden lg:flex flex-col terminal h-full xl:pr-8 border-solid border-secondary border-r-[1px] overflow-y-auto">
+    <div className={`${pathname === "/" ? "hidden" : "hidden lg:flex"} flex-col terminal h-full w-1/2 border-solid border-secondary border-r-[1px] overflow-y-auto ${className}`}>
       {/* Text Area */}
       <div className="flex flex-col p-4">
         <Prompt text={text} onChange={setText} onSubmit={handleSubmit} disabled={true} />

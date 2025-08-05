@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
 
-export default function ASCIIDonut() {
+export default function ASCIIDonut({className}: {className?: string}) {
     const [output, setOutput] = useState('');
   const [isRunning, setIsRunning] = useState(true);
   const animationRef = useRef<NodeJS.Timeout | null>(null);
@@ -85,8 +85,8 @@ export default function ASCIIDonut() {
   };
 
   return (
-    <div className="" onClick={toggleAnimation} onDoubleClick={resetAnimation}>
-        <pre className="terminal">
+    <div className="w-full" onClick={toggleAnimation} onDoubleClick={resetAnimation}>
+        <pre className={`terminal ${className}`}>
           {output}
         </pre>
     </div>

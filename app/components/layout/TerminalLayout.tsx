@@ -24,7 +24,7 @@ export default function TerminalLayout({
                     </div>
                 </div>
                 {/* Socials */}
-                <div className="flex w-full justify-between bg-secondary-300 mb-4 bottom-0 left-0 z-40 terminal">
+                <div className={`w-full justify-between bg-secondary-300 mb-4 bottom-0 left-0 z-40 terminal ${pathname === '/' ? 'hidden' : 'flex'}`}>
                     <div className="flex">
                         <div className="bg-accent z-20 text-primary p-0.5 px-2 pr-6 terminal-tab">
                             <Globe size={16} />
