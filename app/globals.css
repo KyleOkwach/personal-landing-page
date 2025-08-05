@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+:root {
+  /* Primary shades (light blue-grays) */
+  --color-primary-50: hsl(200, 50%, 98%);
+  --color-primary-100: hsl(200, 50%, 95%);
+  --color-primary-200: hsl(200, 50%, 90%);
+  --color-primary-300: hsl(200, 50%, 80%);
+  --color-primary-400: hsl(200, 50%, 70%);
+  --color-primary-500: hsl(200, 50%, 60%);
+  --color-primary-600: hsl(200, 50%, 50%);
+  --color-primary-700: hsl(200, 50%, 40%);
+  --color-primary-800: hsl(200, 50%, 30%);
+  --color-primary-900: hsl(200, 50%, 20%);
+  --color-primary-950: hsl(200, 50%, 10%);
+
+  /* Secondary shades (dark blue-grays) */
+  --color-secondary-50: hsl(200, 50%, 5%);
+  --color-secondary-100: hsl(200, 50%, 8%);
+  --color-secondary-200: hsl(200, 50%, 10%);
+  --color-secondary-300: hsl(200, 50%, 15%);
+  --color-secondary-400: hsl(200, 50%, 20%);
+  --color-secondary-500: hsl(200, 50%, 30%);
+  --color-secondary-600: hsl(200, 50%, 40%);
+  --color-secondary-700: hsl(200, 50%, 50%);
+  --color-secondary-800: hsl(200, 50%, 60%);
+  --color-secondary-900: hsl(200, 50%, 70%);
+  --color-secondary-950: hsl(200, 50%, 80%);
+
+  /* Tertiary shades (purples) */
+  --color-tertiary-50: hsl(260, 80%, 95%);
+  --color-tertiary-100: hsl(260, 80%, 90%);
+  --color-tertiary-200: hsl(260, 80%, 80%);
+  --color-tertiary-300: hsl(260, 80%, 70%);
+  --color-tertiary-400: hsl(260, 80%, 60%);
+  --color-tertiary-500: hsl(260, 80%, 50%);
+  --color-tertiary-600: hsl(260, 80%, 40%);
+  --color-tertiary-700: hsl(260, 80%, 30%);
+  --color-tertiary-800: hsl(260, 80%, 25%);
+  --color-tertiary-900: hsl(260, 80%, 20%);
+  --color-tertiary-950: hsl(260, 80%, 15%);
+
+  /* Accent shades (greens) */
+  --color-accent-50: hsl(140, 80%, 95%);
+  --color-accent-100: hsl(140, 80%, 90%);
+  --color-accent-200: hsl(140, 80%, 80%);
+  --color-accent-300: hsl(140, 80%, 70%);
+  --color-accent-400: hsl(140, 80%, 60%);
+  --color-accent-500: hsl(140, 80%, 50%);
+  --color-accent-600: hsl(140, 80%, 40%);
+  --color-accent-700: hsl(140, 80%, 30%);
+  --color-accent-800: hsl(140, 80%, 25%);
+  --color-accent-900: hsl(140, 80%, 20%);
+  --color-accent-950: hsl(140, 80%, 15%);
+
+  /* Main color assignments (keeping your original names) */
+  --color-primary: var(--color-primary-200);
+  --color-secondary: var(--color-secondary-200);
+  --color-tertiary: var(--color-tertiary-900);
+  --color-accent: var(--color-accent-900);
+}
+
+.dark {
+  --color-primary: var(--color-primary-950);
+  --color-secondary: var(--color-secondary-950);
+  --color-tertiary: var(--color-tertiary-200);
+  --color-accent: var(--color-accent-200);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: var(--color-primary-950);
+    --color-secondary: var(--color-secondary-950);
+    --color-tertiary: var(--color-tertiary-200);
+    --color-accent: var(--color-accent-200);
+  }
+}
+
+.debug {
+  border: 1px solid red;
+}
+
+.terminal {
+  font-family: 'Courier New', monospace;
+}
+
+.ascii-art {
+  font-family: 'Courier New', monospace;
+  white-space: pre;
+  line-height: 1;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@theme inline {
+  /* Main colors */
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-tertiary: var(--color-tertiary);
+  --color-accent: var(--color-accent);
+
+  /* All shade variations available in Tailwind */
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+  --color-primary-950: var(--color-primary-950);
+
+  --color-secondary-50: var(--color-secondary-50);
+  --color-secondary-100: var(--color-secondary-100);
+  --color-secondary-200: var(--color-secondary-200);
+  --color-secondary-300: var(--color-secondary-300);
+  --color-secondary-400: var(--color-secondary-400);
+  --color-secondary-500: var(--color-secondary-500);
+  --color-secondary-600: var(--color-secondary-600);
+  --color-secondary-700: var(--color-secondary-700);
+  --color-secondary-800: var(--color-secondary-800);
+  --color-secondary-900: var(--color-secondary-900);
+  --color-secondary-950: var(--color-secondary-950);
+
+  --color-tertiary-50: var(--color-tertiary-50);
+  --color-tertiary-100: var(--color-tertiary-100);
+  --color-tertiary-200: var(--color-tertiary-200);
+  --color-tertiary-300: var(--color-tertiary-300);
+  --color-tertiary-400: var(--color-tertiary-400);
+  --color-tertiary-500: var(--color-tertiary-500);
+  --color-tertiary-600: var(--color-tertiary-600);
+  --color-tertiary-700: var(--color-tertiary-700);
+  --color-tertiary-800: var(--color-tertiary-800);
+  --color-tertiary-900: var(--color-tertiary-900);
+  --color-tertiary-950: var(--color-tertiary-950);
+
+  --color-accent-50: var(--color-accent-50);
+  --color-accent-100: var(--color-accent-100);
+  --color-accent-200: var(--color-accent-200);
+  --color-accent-300: var(--color-accent-300);
+  --color-accent-400: var(--color-accent-400);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-600: var(--color-accent-600);
+  --color-accent-700: var(--color-accent-700);
+  --color-accent-800: var(--color-accent-800);
+  --color-accent-900: var(--color-accent-900);
+  --color-accent-950: var(--color-accent-950);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+.terminal-tab {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  backdrop-filter: blur(100%);
+  clip-path: polygon(calc(100% - 20px) 0, 100% 0, calc(100% - 20px) 100%, 0 100%, 0 0);
+}
+
+body {
+  background: var(--color-primary);
+  color: var(--color-secondary);
+  font-family: Arial, Helvetica, sans-serif;
+}
